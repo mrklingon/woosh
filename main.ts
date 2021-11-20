@@ -10,8 +10,9 @@ input.onButtonPressed(Button.B, function () {
 })
 let ship: game.LedSprite = null
 let star: game.LedSprite = null
+game.setLife(10)
 let stars: game.LedSprite[] = []
-for (let index = 0; index < 10; index++) {
+for (let index = 0; index < 2; index++) {
     star = game.createSprite(2, 0)
     star.set(LedSpriteProperty.Direction, randint(90, 270))
     stars.push(star)
@@ -20,11 +21,11 @@ ship = game.createSprite(2, 2)
 ship.set(LedSpriteProperty.Direction, 180)
 basic.forever(function () {
     for (let value of stars) {
-        basic.pause(500)
+        basic.pause(150)
         value.move(1)
-        if (value.isTouchingEdge()) {
-            value.set(LedSpriteProperty.X, 2)
-            value.set(LedSpriteProperty.Y, 2)
+        value.ifOnEdgeBounce()
+        if (value.isTouching(ship)) {
+            game.removeLife(1)
         }
     }
 })
